@@ -1,0 +1,8 @@
+targets/*/repo
+targets/*/*.tar.gz
+targets/*/work
+targets/*/*.a
+targets/*/*_fuzzer
+targets/php/corpus/
+targets/libxml2/xmllint
+fuzzers/*/*.o

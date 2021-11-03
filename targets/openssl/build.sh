@@ -36,5 +36,5 @@ make -j$(nproc) LDCMD="$CXX $CXXFLAGS"
 fuzzers=$(find fuzz -executable -type f '!' -name \*.py '!' -name \*-test '!' -name \*.pl)
 for f in $fuzzers; do
     fuzzer=$(basename $f)
-    cp $f "$OUT/"
+    cp $f "$OUT/openssl_${fuzzer}_fuzzer"
 done
