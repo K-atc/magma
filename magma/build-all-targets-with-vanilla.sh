@@ -11,7 +11,7 @@ VANILLA_FUZZER=${FUZZERS}/vanilla
 ### Build environment variables
 export CC=clang
 export CXX=clang++
-export LIBS="${LIBS} -L${VANILLA_FUZZER} -l:afl_driver.o -lstdc++"
+export LIBS="-L${VANILLA_FUZZER} -l:afl_driver.o -lstdc++"
 
 ### Build vanilla fuzzer
 echo "[*] Build vanilla fuzzer"
@@ -20,7 +20,6 @@ FUZZER=${VANILLA_FUZZER} OUT=${VANILLA_FUZZER} ${VANILLA_FUZZER}/build.sh
 ### Build targets
 for target_name in $(echo libpng libxml2 sqlite3 openssl php libtiff poppler); do
     target="${TARGETS}/${target_name}"
-    ### TODO: php はファザー名が異なる
     if (ls ${target}/${target_name}_*fuzzer); then
         echo "[*] Target ${target_name} exists. skip"
     else

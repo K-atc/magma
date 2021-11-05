@@ -28,6 +28,7 @@ int main(int argc, char **argv) {
   if (LLVMFuzzerInitialize)
     LLVMFuzzerInitialize(&argc, &argv);
   for (int i = 1; i < argc; i++) {
+    printf("[*] Testing input file \"%s\"\n", argv[i]);
     FILE *f = fopen(argv[i], "r");
     assert(f);
     fseek(f, 0, SEEK_END);
@@ -40,6 +41,7 @@ int main(int argc, char **argv) {
     LLVMFuzzerTestOneInput(buf, len);
     free(buf);
   }
+  printf("[*] Tested %d files. No crash reported\n", argc - 1);
   return 0;
 }
 

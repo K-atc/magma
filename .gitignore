@@ -5,4 +5,7 @@ targets/*/*.a
 targets/*/*_fuzzer
 targets/php/corpus/
 targets/libxml2/xmllint
+targets/poppler/pdfimages
+targets/poppler/pdftoppm
+targets/poppler/freetype2
 fuzzers/*/*.o
