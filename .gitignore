@@ -8,4 +8,6 @@ targets/libxml2/xmllint
 targets/poppler/pdfimages
 targets/poppler/pdftoppm
 targets/poppler/freetype2
+targets/sqlite3/sqlite3_fuzz
 fuzzers/*/*.o
+*.objdump

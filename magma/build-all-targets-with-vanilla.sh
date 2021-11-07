@@ -11,6 +11,8 @@ VANILLA_FUZZER=${FUZZERS}/vanilla
 ### Build environment variables
 export CC=clang
 export CXX=clang++
+export CFLAGS="-g -O2"
+export CXXFLAGS=${CFLAGS}
 export LIBS="-L${VANILLA_FUZZER} -l:afl_driver.o -lstdc++"
 
 ### Build vanilla fuzzer
@@ -27,7 +29,7 @@ for target_name in $(echo libpng libxml2 sqlite3 openssl php libtiff poppler); d
         if [ ! -e ${target}/repo/.git ]; then
             TARGET=${target} OUT=${target} ${target}/fetch.sh
         fi
-        git -C ${target}/repo reset --hard
+        # git -C ${target}/repo reset --hard
         TARGET=${target} ${MAGMA}/apply_patches.sh
         TARGET=${target} OUT=${target} ${target}/build.sh
     fi

@@ -35,5 +35,5 @@ make sqlite3.c
 
 $CC $CFLAGS -I. \
     "$TARGET/repo/test/ossfuzz.c" "./sqlite3.o" \
-    -o "$OUT/sqlite3_fuzz" \
+    -o "$OUT/sqlite3_fuzzer" \
     $LDFLAGS $LIBS -pthread -ldl
