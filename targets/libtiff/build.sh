@@ -25,7 +25,7 @@ make -j$(nproc) clean
 make -j$(nproc)
 make install
 
-# cp "$WORK/bin/tiffcp" "$OUT/"
+cp "$WORK/bin/tiffcp" "$OUT/libtiff_tiffcp"
 $CXX $CXXFLAGS -std=c++11 -I$WORK/include \
     contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc -o $OUT/libtiff_read_rgba_fuzzer \
     $WORK/lib/libtiffxx.a $WORK/lib/libtiff.a -lz -ljpeg -ljbig -Wl,-Bstatic -llzma -Wl,-Bdynamic \

@@ -63,7 +63,8 @@ cmake "$TARGET/repo" \
 make -j$(nproc) poppler poppler-cpp pdfimages pdftoppm
 EXTRA=""
 
-cp "$WORK/poppler/utils/"{pdfimages,pdftoppm} "$OUT/"
+cp "$WORK/poppler/utils/"pdfimages "$OUT/"poppler_pdfimages
+cp "$WORK/poppler/utils/"pdftoppm "$OUT/"poppler_pdftoppm
 $CXX $CXXFLAGS -std=c++11 -I"$TARGET/repo/cpp" \
     "$TARGET/src/pdf_fuzzer.cc" -o "$OUT/poppler_pdf_fuzzer" \
     "$WORK/poppler/cpp/libpoppler-cpp.a" "$WORK/poppler/libpoppler.a" \

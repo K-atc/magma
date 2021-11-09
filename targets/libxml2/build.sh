@@ -23,7 +23,7 @@ cd "$TARGET/repo"
 make -j$(nproc) clean
 make -j$(nproc) all
 
-cp xmllint "$OUT/"
+cp xmllint "$OUT/libxml2_xmllint"
 
 for fuzzer in libxml2_xml_read_memory_fuzzer libxml2_xml_reader_for_file_fuzzer; do
   $CXX $CXXFLAGS -std=c++11 -Iinclude/ -I"$TARGET/src/" \
