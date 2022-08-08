@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eu
 
 ##
 # Pre-requirements:
@@ -19,14 +19,13 @@ mkdir -p "$WORK"
 mkdir -p "$WORK/lib" "$WORK/include"
 
 cd "$TARGET/repo"
-./autogen.sh
-./configure --disable-shared --prefix="$WORK"
-make -j$(nproc) clean
-make -j$(nproc)
-make install
+cmake -B build . -DCMAKE_INSTALL_PREFIX=$WORK -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_LIBS=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+    -DCMAKE_CXX_FLAGS="$CFLAGS" -DCMAKE_C_FLAGS="$CFLAGS"
+cmake --build build
+cmake --build build --target install .
 
 cp "$WORK/bin/tiffcp" "$OUT/"
-$CXX $CXXFLAGS -std=c++11 -I$WORK/include \
-    contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc -o $OUT/tiff_read_rgba_fuzzer \
-    $WORK/lib/libtiffxx.a $WORK/lib/libtiff.a -lz -ljpeg -Wl,-Bstatic -llzma -Wl,-Bdynamic \
-    $LDFLAGS $LIBS
+# $CXX $CXXFLAGS -std=c++11 -I$WORK/include \
+#     contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc -o $OUT/tiff_read_rgba_fuzzer \
+#     $WORK/lib/libtiffxx.a $WORK/lib/libtiff.a -lz -ljpeg -Wl,-Bstatic -llzma -Wl,-Bdynamic \
+#     $LDFLAGS $LIBS
