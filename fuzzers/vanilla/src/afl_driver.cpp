@@ -36,7 +36,9 @@ int main(int argc, char **argv) {
     unsigned char *buf = (unsigned char*)malloc(len);
     size_t n_read = fread(buf, 1, len, f);
     fclose(f);
+    assert(n_read > 0);
     assert(n_read == len);
+    printf("[*] File \"%s\" (size: %d)\n", argv[i], n_read);
     LLVMFuzzerTestOneInput(buf, len);
     free(buf);
   }

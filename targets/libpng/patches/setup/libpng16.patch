@@ -16,8 +16,35 @@
 +option WRITE disabled
 --- a/contrib/oss-fuzz/libpng_read_fuzzer.cc
 +++ b/contrib/oss-fuzz/libpng_read_fuzzer.cc
-@@ -15,3 +15,4 @@
+@@ -15,6 +15,7 @@
+ // 4. adding read_end_info() and creating an end_info structure.
+ // 5. adding calls to png_set_*() transforms commonly used by browsers.
+
 +#include <stdlib.h>
  #include <stddef.h>
  #include <stdint.h>
  #include <string.h>
+@@ -94,6 +95,14 @@ void default_free(png_structp, png_voidp ptr) {
+   return free(ptr);
+ }
+
++void warn_fn(png_structrp png_ptr, const char* message) {
++  printf("warn_fn: %s\n", message);
++}
++
++void error_fn(png_structrp png_ptr, const char* message) {
++  printf("error_fn: \"%s\n", message);
++}
++
+ static const int kPngHeaderSize = 8;
+
+ // Entry point for LibFuzzer.
+@@ -117,7 +126,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
+   png_handler.end_info_ptr = nullptr;
+
+   png_handler.png_ptr = png_create_read_struct
+-    (PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
++    (PNG_LIBPNG_VER_STRING, nullptr, error_fn, warn_fn);
+   if (!png_handler.png_ptr) {
+     return 0;
+   }

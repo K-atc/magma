@@ -1,0 +1,4 @@
+*.o
+targets/libtiff/tiffcp
+targets/libpng/libpng*
+work/

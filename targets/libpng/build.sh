@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eux
 
 ##
 # Pre-requirements:
@@ -15,15 +15,19 @@ fi
 
 # build the libpng library
 cd "$TARGET/repo"
-autoreconf -f -i
-./configure --with-libpng-prefix=MAGMA_ --disable-shared
-make -j$(nproc) clean
-make -j$(nproc) libpng16.la
+# autoreconf -f -i
+# ./configure --with-libpng-prefix=MAGMA_ --disable-shared
+# make -j$(nproc) clean
+# make -j$(nproc) libpng16.la
+cmake -B build . -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_LIBS=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+    -DCMAKE_CXX_FLAGS="$CXXFLAGS" -DCMAKE_C_FLAGS="$CFLAGS"
+# cmake --build build --target clean
+cmake --build build
 
-cp .libs/libpng16.a "$OUT/"
+cp build/libpng16.a "$OUT/"
 
 # build libpng_read_fuzzer.
 $CXX $CXXFLAGS -std=c++11 -I. \
      contrib/oss-fuzz/libpng_read_fuzzer.cc \
      -o $OUT/libpng_read_fuzzer \
-     $LDFLAGS .libs/libpng16.a $LIBS -lz
+     $LDFLAGS build/libpng16.a $LIBS -lz
