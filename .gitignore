@@ -2,3 +2,16 @@
 targets/libtiff/tiffcp
 targets/libpng/libpng*
 work/
+repo/
+
+targets/openssl/asn1*
+targets/openssl/bignum
+targets/openssl/bndiv
+targets/openssl/client
+targets/openssl/cmp
+targets/openssl/cms
+targets/openssl/conf
+targets/openssl/crl
+targets/openssl/ct
+targets/openssl/server
+targets/openssl/x509

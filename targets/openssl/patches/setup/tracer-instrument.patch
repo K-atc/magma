@@ -1,0 +1,10 @@
+--- a/apps/lib/apps.c
++++ b/apps/lib/apps.c
+@@ -42,6 +42,7 @@
+ #include <openssl/core_names.h>
+ #include "s_apps.h"
+ #include "apps.h"
++#include <trace.h>
+
+ #ifdef _WIN32
+ static int WIN32_rename(const char *from, const char *to);
