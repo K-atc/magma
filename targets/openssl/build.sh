@@ -31,7 +31,7 @@ ls Makefile || ./config --debug enable-fuzz-libfuzzer enable-fuzz-afl disable-te
     enable-ssl3-method enable-nextprotoneg enable-weak-ssl-ciphers \
     $CFLAGS -fno-sanitize=alignment $CONFIGURE_FLAGS
 
-# make -j$(nproc) clean
+make -j$(nproc) clean
 bear -- make -j$(nproc) LDCMD="$CXX $CXXFLAGS"
 
 fuzzers=$(find fuzz -executable -type f '!' -name \*.py '!' -name \*-test '!' -name \*.pl)
