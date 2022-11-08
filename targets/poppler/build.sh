@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -eux
 
 ##
 # Pre-requirements:
@@ -20,7 +20,7 @@ mkdir -p "$WORK/lib" "$WORK/include"
 
 pushd "$TARGET/freetype2"
 ./autogen.sh
-./configure --prefix="$WORK" --disable-shared PKG_CONFIG_PATH="$WORK/lib/pkgconfig"
+./configure --prefix="$WORK" --disable-shared --without-bzip2 PKG_CONFIG_PATH="$WORK/lib/pkgconfig"
 make -j$(nproc) clean
 make -j$(nproc)
 make install
@@ -33,10 +33,14 @@ EXTRA=""
 test -n "$AR" && EXTRA="$EXTRA -DCMAKE_AR=$AR"
 test -n "$RANLIB" && EXTRA="$EXTRA -DCMAKE_RANLIB=$RANLIB"
 
+LD_LIBRARY_PATH="$WORK/lib" \
+LDFLAGS=-lharfbuzz \
 cmake "$TARGET/repo" \
   $EXTRA \
   -DCMAKE_BUILD_TYPE=debug \
   -DBUILD_SHARED_LIBS=OFF \
+  -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+  -DCMAKE_CXX_FLAGS="${CXXFLAGS}" \
   -DFONT_CONFIGURATION=generic \
   -DBUILD_GTK_TESTS=OFF \
   -DBUILD_QT5_TESTS=OFF \
@@ -65,5 +69,5 @@ cp "$WORK/poppler/utils/"{pdfimages,pdftoppm} "$OUT/"
 $CXX $CXXFLAGS -std=c++11 -I"$WORK/poppler/cpp" -I"$TARGET/repo/cpp" \
     "$TARGET/src/pdf_fuzzer.cc" -o "$OUT/pdf_fuzzer" \
     "$WORK/poppler/cpp/libpoppler-cpp.a" "$WORK/poppler/libpoppler.a" \
-    "$WORK/lib/libfreetype.a" $LDFLAGS $LIBS -ljpeg -lz \
+    "$WORK/lib/libfreetype.a" $LDFLAGS $LIBS -lharfbuzz -ljpeg -lz \
     -lopenjp2 -lpng -ltiff -llcms2 -lm -lpthread -pthread
