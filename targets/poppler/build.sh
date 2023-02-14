@@ -20,7 +20,7 @@ mkdir -p "$WORK/lib" "$WORK/include"
 
 pushd "$TARGET/freetype2"
 ./autogen.sh
-./configure --prefix="$WORK" --disable-shared --without-bzip2 PKG_CONFIG_PATH="$WORK/lib/pkgconfig"
+CFLAGS="-g" LDFLAGS="" LIBS="" ./configure --prefix="$WORK" --disable-shared --without-bzip2 PKG_CONFIG_PATH="$WORK/lib/pkgconfig"
 make -j$(nproc) clean
 make -j$(nproc)
 make install
@@ -33,8 +33,9 @@ EXTRA=""
 test -n "$AR" && EXTRA="$EXTRA -DCMAKE_AR=$AR"
 test -n "$RANLIB" && EXTRA="$EXTRA -DCMAKE_RANLIB=$RANLIB"
 
+### NOTE: LIBS に -lharfbuzz を入れるとリンクエラー
 LD_LIBRARY_PATH="$WORK/lib" \
-LDFLAGS=-lharfbuzz \
+LDFLAGS="${LDFLAGS} -lharfbuzz" \
 cmake "$TARGET/repo" \
   $EXTRA \
   -DCMAKE_BUILD_TYPE=debug \
@@ -61,7 +62,8 @@ cmake "$TARGET/repo" \
   -DFREETYPE_INCLUDE_DIRS="$WORK/include/freetype2" \
   -DFREETYPE_LIBRARY="$WORK/lib/libfreetype.a" \
   -DICONV_LIBRARIES="/usr/lib/x86_64-linux-gnu/libc.so" \
-  -DCMAKE_EXE_LINKER_FLAGS_INIT="$LIBS"
+  -DLINK_OPTIONS="LINKER:-lftrace"
+  # -DCMAKE_EXE_LINKER_FLAGS="${LIBS}"
 make -j$(nproc) poppler poppler-cpp pdfimages pdftoppm
 EXTRA=""
 
