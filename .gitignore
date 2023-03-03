@@ -15,3 +15,7 @@ targets/openssl/crl
 targets/openssl/ct
 targets/openssl/server
 targets/openssl/x509
+
+targets/poppler/*.orig
+
+*.log
