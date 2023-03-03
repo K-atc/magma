@@ -64,10 +64,10 @@ cmake "$TARGET/repo" \
   -DICONV_LIBRARIES="/usr/lib/x86_64-linux-gnu/libc.so" \
   -DLINK_OPTIONS="LINKER:-lftrace"
   # -DCMAKE_EXE_LINKER_FLAGS="${LIBS}"
-make -j$(nproc) poppler poppler-cpp pdfimages pdftoppm
+make -j$(nproc) poppler poppler-cpp pdfimages pdftoppm pdfdetach 
 EXTRA=""
 
-cp "$WORK/poppler/utils/"{pdfimages,pdftoppm} "$OUT/"
+cp -v $WORK/poppler/utils/pdf* "$OUT/"
 $CXX $CXXFLAGS -std=c++11 -I"$WORK/poppler/cpp" -I"$TARGET/repo/cpp" \
     "$TARGET/src/pdf_fuzzer.cc" -o "$OUT/pdf_fuzzer" \
     "$WORK/poppler/cpp/libpoppler-cpp.a" "$WORK/poppler/libpoppler.a" \

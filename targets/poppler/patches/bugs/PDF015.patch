@@ -17,9 +17,8 @@ index be262ad4..445931f3 100644
      m_objStr.streamReset();
      while ((c = m_objStr.streamGetChar()) != EOF) {
          fputc(c, f);
-
 diff --git a/utils/pdfdetach.cc b/utils/pdfdetach.cc
-index f5576b38..c9359516 100644
+index f5576b38..6f29b23b 100644
 --- a/utils/pdfdetach.cc
 +++ b/utils/pdfdetach.cc
 @@ -248,7 +248,14 @@ int main(int argc, char *argv[])
@@ -27,7 +26,7 @@ index f5576b38..c9359516 100644
 
              auto *embFile = fileSpec->getEmbeddedFile();
 +#ifdef MAGMA_ENABLE_CANARIES
-+            MAGMA_LOG("%MAGMA_BUG%", !embFile.isOk());
++            MAGMA_LOG("PDF015", !embFile.isOk());
 +#endif
 +#ifdef MAGMA_ENABLE_FIXES
              if (!embFile || !embFile->isOk()) {
@@ -37,3 +36,18 @@ index f5576b38..c9359516 100644
                  exitCode = 3;
                  goto err2;
              }
+@@ -312,7 +319,14 @@ int main(int argc, char *argv[])
+         }
+
+         auto *embFile = fileSpec->getEmbeddedFile();
++#ifdef MAGMA_ENABLE_CANARIES
++        MAGMA_LOG("PDF015", !embFile.isOk());
++#endif
++#ifdef MAGMA_ENABLE_FIXES
+         if (!embFile || !embFile->isOk()) {
++#else
++        if (!embFile) {
++#endif
+             exitCode = 3;
+             goto err2;
+         }
