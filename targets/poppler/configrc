@@ -1,4 +1,5 @@
-PROGRAMS=(pdf_fuzzer pdfimages pdftoppm)
+PROGRAMS=(pdf_fuzzer pdfimages pdftoppm pdfdetach)
 
 pdfimages_ARGS="@@ /tmp/out"
 pdftoppm_ARGS="-mono -cropbox @@"
+pdfdetach_ARGS="@@ -saveall @@"
