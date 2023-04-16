@@ -20,7 +20,8 @@ mkdir -p "$WORK/lib" "$WORK/include"
 
 pushd "$TARGET/freetype2"
 ./autogen.sh
-CFLAGS="-g" LDFLAGS="" LIBS="" ./configure --prefix="$WORK" --disable-shared --without-bzip2 PKG_CONFIG_PATH="$WORK/lib/pkgconfig"
+CFLAGS="-g" LDFLAGS="" LIBS="" PKG_CONFIG_PATH="$HOME/bin/vcpkg/packages/brotli_x64-linux/lib/pkgconfig" \
+  ./configure --prefix="$WORK" --disable-shared --without-bzip2 --without-brotli
 make -j$(nproc) clean
 make -j$(nproc)
 make install
@@ -34,6 +35,8 @@ test -n "$AR" && EXTRA="$EXTRA -DCMAKE_AR=$AR"
 test -n "$RANLIB" && EXTRA="$EXTRA -DCMAKE_RANLIB=$RANLIB"
 
 ### NOTE: LIBS に -lharfbuzz を入れるとリンクエラー
+# LDFLAGS="${LDFLAGS} -lharfbuzz -L $HOME/bin/vcpkg/packages/brotli_x64-linux/lib -lbrotlidec-static" \
+# -DCMAKE_TOOLCHAIN_FILE=$HOME/bin/vcpkg/scripts/buildsystems/vcpkg.cmake \
 LD_LIBRARY_PATH="$WORK/lib" \
 LDFLAGS="${LDFLAGS} -lharfbuzz" \
 cmake "$TARGET/repo" \
@@ -64,7 +67,7 @@ cmake "$TARGET/repo" \
   -DICONV_LIBRARIES="/usr/lib/x86_64-linux-gnu/libc.so" \
   -DLINK_OPTIONS="LINKER:-lftrace"
   # -DCMAKE_EXE_LINKER_FLAGS="${LIBS}"
-make -j$(nproc) poppler poppler-cpp pdfimages pdftoppm pdfdetach 
+make -j$(nproc) poppler poppler-cpp pdfimages pdftoppm pdfdetach pdfattach
 EXTRA=""
 
 cp -v $WORK/poppler/utils/pdf* "$OUT/"
