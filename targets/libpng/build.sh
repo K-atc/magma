@@ -19,10 +19,11 @@ cd "$TARGET/repo"
 # ./configure --with-libpng-prefix=MAGMA_ --disable-shared
 # make -j$(nproc) clean
 # make -j$(nproc) libpng16.la
-cmake -B build . -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_LIBS=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-    -DCMAKE_CXX_FLAGS="$CXXFLAGS" -DCMAKE_C_FLAGS="$CFLAGS"
+LDFLAGS=${LDFLAGS} \
+cmake -B build . -DBUILD_SHARED_LIBS=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+    -DCMAKE_C_FLAGS="$CFLAGS"
 # cmake --build build --target clean
-cmake --build build
+cmake --build build --target png_static
 
 cp build/libpng16.a "$OUT/"
 

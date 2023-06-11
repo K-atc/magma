@@ -27,6 +27,9 @@ __attribute__((weak))
 int main(int argc, char **argv) {
   if (LLVMFuzzerInitialize)
     LLVMFuzzerInitialize(&argc, &argv);
+  if (argc == 1) {
+    fprintf(stderr, "[!] Specify input files in argv\n");
+  }
   for (int i = 1; i < argc; i++) {
     FILE *f = fopen(argv[i], "r");
     assert(f);
