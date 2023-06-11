@@ -26,7 +26,7 @@ index f5576b38..6f29b23b 100644
 
              auto *embFile = fileSpec->getEmbeddedFile();
 +#ifdef MAGMA_ENABLE_CANARIES
-+            MAGMA_LOG("PDF015", !embFile.isOk());
++            MAGMA_LOG("PDF015", !embFile->isOk());
 +#endif
 +#ifdef MAGMA_ENABLE_FIXES
              if (!embFile || !embFile->isOk()) {
@@ -41,7 +41,7 @@ index f5576b38..6f29b23b 100644
 
          auto *embFile = fileSpec->getEmbeddedFile();
 +#ifdef MAGMA_ENABLE_CANARIES
-+        MAGMA_LOG("PDF015", !embFile.isOk());
++        MAGMA_LOG("PDF015", !embFile->isOk());
 +#endif
 +#ifdef MAGMA_ENABLE_FIXES
          if (!embFile || !embFile->isOk()) {
