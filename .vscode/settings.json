@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.Rmd": "markdown",
+        "php_stdint.h": "c"
+    }
+}

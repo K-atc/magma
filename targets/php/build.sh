@@ -48,7 +48,7 @@ autoreconf -vfi
 make -j$(nproc)
 popd
 
-make -j$(nproc)
+bear -- make -j$(nproc)
 
 # Generate seed corpora
 sapi/cli/php sapi/fuzzer/generate_unserialize_dict.php
