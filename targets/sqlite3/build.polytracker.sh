@@ -38,4 +38,4 @@ polytracker build $CC $CFLAGS -I. \
     -o "$OUT/sqlite3_fuzz" \
     $LDFLAGS $LIBS -pthread -ldl -lm
 
-polytracker instrument-targets --taint sqlite3_fuzz --ignore-lists 
+polytracker instrument-targets --taint sqlite3_fuzz --ignore-lists libpthread libdl libm
