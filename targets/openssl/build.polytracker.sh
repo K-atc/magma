@@ -33,4 +33,8 @@ polytracker build ./config --debug enable-fuzz-libfuzzer enable-fuzz-afl disable
 
 polytracker build make -j$(nproc) 
 
-polytracker instrument-targets --taint client server x509 --ignore-lists libcrypto libssl openssl
+polytracker instrument-targets --taint client --ignore-lists libcrypto libssl openssl &
+polytracker instrument-targets --taint server --ignore-lists libcrypto libssl openssl &
+polytracker instrument-targets --taint x509 --ignore-lists libcrypto libssl openssl &
+polytracker instrument-targets --taint asn1 --ignore-lists libcrypto libssl openssl &
+wait

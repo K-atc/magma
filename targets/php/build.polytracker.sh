@@ -25,7 +25,7 @@ unset CFLAGS
 unset CXXFLAGS
 
 #build the php library
-polytracker build ./buildconf
+polytracker build CC=$CC ./buildconf
 LIB_FUZZING_ENGINE="-Wall" polytracker build ./configure \
     --disable-all \
     --enable-option-checking=fatal \
@@ -41,12 +41,12 @@ LIB_FUZZING_ENGINE="-Wall" polytracker build ./configure \
 
 # make -j$(nproc) clean
 
-# build oniguruma and link statically
-pushd oniguruma
-autoreconf -vfi
-./configure --disable-shared
-make -j$(nproc)
-popd
+# # build oniguruma and link statically
+# pushd oniguruma
+# polytracker build autoreconf -vfi
+# polytracker build ./configure --disable-shared
+# polytracker build make -j$(nproc)
+# popd
 
 polytracker build make -j$(nproc)
 
@@ -54,14 +54,14 @@ polytracker build make -j$(nproc)
 sapi/cli/php sapi/fuzzer/generate_unserialize_dict.php
 sapi/cli/php sapi/fuzzer/generate_parser_corpus.php
 
-polytracker instrument-targets --taint php-fuzz-exif --ignore-lists libonig
+polytracker instrument-targets --taint exif
 
-FUZZERS="php-fuzz-json php-fuzz-exif php-fuzz-mbstring php-fuzz-unserialize php-fuzz-parser"
-for fuzzerName in $FUZZERS; do
-	cp sapi/fuzzer/$fuzzerName "$OUT/${fuzzerName/php-fuzz-/}"
-done
+# FUZZERS="php-fuzz-json php-fuzz-exif php-fuzz-mbstring php-fuzz-unserialize php-fuzz-parser"
+# for fuzzerName in $FUZZERS; do
+# 	cp sapi/fuzzer/$fuzzerName "$OUT/${fuzzerName/php-fuzz-/}"
+# done
 
-for fuzzerName in `ls sapi/fuzzer/corpus`; do
-    mkdir -p "$TARGET/corpus/${fuzzerName}"
-    cp sapi/fuzzer/corpus/${fuzzerName}/* "$TARGET/corpus/${fuzzerName}/"
-done
+# for fuzzerName in `ls sapi/fuzzer/corpus`; do
+#     mkdir -p "$TARGET/corpus/${fuzzerName}"
+#     cp sapi/fuzzer/corpus/${fuzzerName}/* "$TARGET/corpus/${fuzzerName}/"
+# done

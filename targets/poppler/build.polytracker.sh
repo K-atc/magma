@@ -72,6 +72,7 @@ polytracker build cmake --build "$WORK/poppler" -j$(nproc) --target poppler popp
 EXTRA=""
 polytracker instrument-targets --taint pdfdetach --ignore-lists freetype fontconfig harfbuzz libjpeg libpng libtiff libz openjpeg &
 polytracker instrument-targets --taint pdfimages --ignore-lists freetype fontconfig harfbuzz libjpeg libpng libtiff libz openjpeg &
+polytracker instrument-targets --taint pdftoppm  --ignore-lists freetype fontconfig harfbuzz libjpeg libpng libtiff libz openjpeg &
 
 cp -v $WORK/poppler/utils/pdf* "$OUT/"
 polytracker build $CXX $CXXFLAGS -std=c++11 -I"$WORK/poppler/cpp" -I"$TARGET/repo/cpp" \
@@ -80,6 +81,6 @@ polytracker build $CXX $CXXFLAGS -std=c++11 -I"$WORK/poppler/cpp" -I"$TARGET/rep
     "$WORK/lib/libfreetype.a" $LDFLAGS $LIBS -lharfbuzz -ljpeg -lz \
     -lopenjp2 -lpng -ltiff -llcms2 -lm -lpthread -pthread
 
-wait
+# polytracker instrument-targets --taint pdf_fuzzer --ignore-lists freetype fontconfig harfbuzz libjpeg libpng libtiff libz openjpeg # => バイナリを実行するとセグフォ
 
-# polytracker instrument-targets --taint pdf_fuzzer # => segv
+wait
