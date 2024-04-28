@@ -81,6 +81,6 @@ polytracker build $CXX $CXXFLAGS -std=c++11 -I"$WORK/poppler/cpp" -I"$TARGET/rep
     "$WORK/lib/libfreetype.a" $LDFLAGS $LIBS -lharfbuzz -ljpeg -lz \
     -lopenjp2 -lpng -ltiff -llcms2 -lm -lpthread -pthread
 
-# polytracker instrument-targets --taint pdf_fuzzer --ignore-lists freetype fontconfig harfbuzz libjpeg libpng libtiff libz openjpeg # => バイナリを実行するとセグフォ
+polytracker instrument-targets --taint pdf_fuzzer --ignore-lists freetype fontconfig harfbuzz libjpeg libpng libtiff libz openjpeg # => バイナリを実行するとセグフォ
 
 wait
