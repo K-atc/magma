@@ -1,8 +1,12 @@
 *.o
+*.bc
+*.asan
+*.orig
 targets/libtiff/tiffcp
 targets/libpng/libpng*
 work/
 repo/
+repo.orig/
 
 targets/openssl/asn1*
 targets/openssl/bignum
@@ -16,6 +20,7 @@ targets/openssl/ct
 targets/openssl/server
 targets/openssl/x509
 
+targets/poppler/pdf*
 targets/poppler/*.orig
 
 *.log

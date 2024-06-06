@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -eux
 
 ##
 # Pre-requirements:
@@ -27,5 +27,5 @@ cmake --build build --target tiffxx tiffcp
 cp build/tools/tiffcp "$OUT/"
 $CXX $CXXFLAGS -std=c++11 -I$WORK/include \
     contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc -o $OUT/tiff_read_rgba_fuzzer \
-    build/libtiff/libtiffxx.a build/libtiff/libtiff.a -lz -ljpeg -ljbig -Wl,-Bstatic -llzma -Wl,-Bdynamic \
+    build/libtiff/libtiffxx.a build/libtiff/libtiff.a -lz -ljpeg -ljbig -ldeflate -Wl,-Bstatic -llzma -Wl,-Bdynamic \
     $LDFLAGS $LIBS
