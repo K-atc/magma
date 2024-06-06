@@ -2,11 +2,16 @@
 *.bc
 *.asan
 *.orig
-targets/libtiff/tiffcp
-targets/libpng/libpng*
-work/
-repo/
+
+work
+repo
 repo.orig/
+
+targets/libtiff/tiff*
+
+targets/libpng/libpng*
+
+targets/libxml2/libxml2*
 
 targets/openssl/asn1*
 targets/openssl/bignum
@@ -22,5 +27,6 @@ targets/openssl/x509
 
 targets/poppler/pdf*
 targets/poppler/*.orig
+targets/poppler/freetype2
 
 *.log

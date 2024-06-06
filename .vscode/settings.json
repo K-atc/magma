@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "*.Rmd": "markdown",
-        "php_stdint.h": "c"
+        "php_stdint.h": "c",
+        "php_streams_int.h": "c"
     }
 }
