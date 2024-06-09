@@ -30,3 +30,6 @@ targets/poppler/*.orig
 targets/poppler/freetype2
 
 *.log
+targets/libpng/repo
+targets/libtiff/tiff_read_rgba_fuzzer
+targets/poppler/freetype2

@@ -1,8 +1,22 @@
+diff --git a/libtiff/tif_dirwrite.c b/libtiff/tif_dirwrite.c
+index 032a4be9..faa47c06 100644
+--- a/libtiff/tif_dirwrite.c
++++ b/libtiff/tif_dirwrite.c
+@@ -2061,6 +2061,9 @@ TIFFWriteDirectoryTagColormap(TIFF* tif, uint32_t* ndir, TIFFDirEntry* dir)
+ 		(*ndir)++;
+ 		return(1);
+ 	}
++#ifdef MAGMA_ENABLE_CANARIES
++	MAGMA_LOG("%MAGMA_BUG%-actual", tif->tif_dir.td_bitspersample == 16);
++#endif
+ 	m=(1<<tif->tif_dir.td_bitspersample);
+ 	n=_TIFFmalloc(3*m*sizeof(uint16_t));
+ 	if (n==NULL)
 diff --git a/libtiff/tif_luv.c b/libtiff/tif_luv.c
-index 6a63ead..780107e 100644
+index 13765eab..5397d071 100644
 --- a/libtiff/tif_luv.c
 +++ b/libtiff/tif_luv.c
-@@ -1587,7 +1587,9 @@ LogLuvClose(TIFF* tif)
+@@ -1566,7 +1566,9 @@ LogLuvClose(TIFF* tif)
  	 * before they have been recorded in the file, we reset them here.
           * Note: this is really a nasty approach. See PixarLogClose
  	 */
@@ -12,29 +26,13 @@ index 6a63ead..780107e 100644
          {
              /* See PixarLogClose. Might avoid issues with tags whose size depends
               * on those below, but not completely sure this is enough. */
-@@ -1596,6 +1598,9 @@ LogLuvClose(TIFF* tif)
+@@ -1575,6 +1577,9 @@ LogLuvClose(TIFF* tif)
              td->td_bitspersample = 16;
              td->td_sampleformat = SAMPLEFORMAT_INT;
          }
 +#ifdef MAGMA_ENABLE_CANARIES
-+    MAGMA_LOG("%MAGMA_BUG%", sp->encoder_state == 0);
++        MAGMA_LOG("%MAGMA_BUG%", sp->encoder_state == 0);
 +#endif
  }
  
  static void
-
-diff --git a/libtiff/tif_dirwrite.c b/libtiff/tif_dirwrite.c
-index 032a4be9..06e4a1f1 100644
---- a/libtiff/tif_dirwrite.c
-+++ b/libtiff/tif_dirwrite.c
-@@ -2061,6 +2061,10 @@ TIFFWriteDirectoryTagColormap(TIFF* tif, uint32_t* ndir, TIFFDirEntry* dir)
-                (*ndir)++;
-                return(1);
-        }
-+
-+#ifdef MAGMA_ENABLE_CANARIES
-+       MAGMA_LOG("%MAGMA_BUG%-actual", tif->tif_dir.td_bitspersample == 16);
-+#endif
-        m=(1<<tif->tif_dir.td_bitspersample);
-        n=_TIFFmalloc(3*m*sizeof(uint16_t));
-        if (n==NULL)
