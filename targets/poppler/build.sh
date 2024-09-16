@@ -20,8 +20,9 @@ mkdir -p "$WORK/lib" "$WORK/include"
 
 pushd "$TARGET/freetype2"
 ./autogen.sh
-CFLAGS="-g" LDFLAGS="" LIBS="" PKG_CONFIG_PATH="$HOME/bin/vcpkg/packages/brotli_x64-linux/lib/pkgconfig" \
-  ./configure --prefix="$WORK" --disable-shared --without-bzip2 --without-brotli
+./configure --prefix="$WORK" --disable-shared --without-bzip2 --without-brotli \
+  PKG_CONFIG_PATH="$HOME/bin/vcpkg/packages/brotli_x64-linux/lib/pkgconfig" \
+  CFLAGS="-g"
 make -j$(nproc) clean
 make -j$(nproc)
 make install
@@ -44,7 +45,6 @@ cmake "$TARGET/repo" \
   -DCMAKE_BUILD_TYPE=debug \
   -DBUILD_SHARED_LIBS=OFF \
   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-  -DCMAKE_CXX_FLAGS="${CXXFLAGS}" \
   -DFONT_CONFIGURATION=generic \
   -DBUILD_GTK_TESTS=OFF \
   -DBUILD_QT5_TESTS=OFF \
@@ -65,8 +65,8 @@ cmake "$TARGET/repo" \
   -DFREETYPE_INCLUDE_DIRS="$WORK/include/freetype2" \
   -DFREETYPE_LIBRARY="$WORK/lib/libfreetype.a" \
   -DICONV_LIBRARIES="/usr/lib/x86_64-linux-gnu/libc.so" \
-  -DLINK_OPTIONS="LINKER:-lftrace"
-  # -DCMAKE_EXE_LINKER_FLAGS="${LIBS}"
+  -DLINK_OPTIONS="LINKER:-lftrace" \
+  -DCMAKE_EXE_LINKER_FLAGS_INIT="$LIBS"
 make -j$(nproc) poppler poppler-cpp pdfimages pdftoppm pdfdetach pdfattach
 EXTRA=""
 

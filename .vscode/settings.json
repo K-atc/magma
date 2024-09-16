@@ -3,5 +3,9 @@
         "*.Rmd": "markdown",
         "php_stdint.h": "c",
         "php_streams_int.h": "c"
+    },
+    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "#c2410c",
+        "titleBar.inactiveBackground": "#c2410c",
     }
 }

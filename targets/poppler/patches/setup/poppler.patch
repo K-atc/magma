@@ -1,0 +1,20 @@
+--- a/ConfigureChecks.cmake
++++ b/ConfigureChecks.cmake
+@@ -24,7 +24,7 @@ check_include_files(fcntl.h HAVE_FCNTL_H)
+ check_include_files(stdlib.h HAVE_STDLIB_H)
+ check_include_files(sys/mman.h HAVE_SYS_MMAN_H)
+ check_include_files(sys/stat.h HAVE_SYS_STAT_H)
+-check_include_files(unistd.h HAVE_UNISTD_H)
++add_compile_definitions(HAVE_UNISTD_H=1)
+ 
+ check_function_exists(fseek64 HAVE_FSEEK64)
+ check_symbol_exists(fseeko "stdio.h" HAVE_FSEEKO)
+@@ -37,7 +37,7 @@ check_function_exists(gettimeofday HAVE_GETTIMEOFDAY)
+ check_function_exists(localtime_r HAVE_LOCALTIME_R)
+ check_function_exists(popen HAVE_POPEN)
+ check_function_exists(mkstemp HAVE_MKSTEMP)
+-check_function_exists(strtok_r HAVE_STRTOK_R)
++add_compile_definitions(HAVE_STRTOK_R=1)
+ 
+ macro(CHECK_FOR_DIR include var)
+   check_c_source_compiles(

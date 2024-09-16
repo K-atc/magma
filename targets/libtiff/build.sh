@@ -20,12 +20,15 @@ mkdir -p "$WORK/lib" "$WORK/include"
 
 cd "$TARGET/repo"
 cmake -B build . -DCMAKE_INSTALL_PREFIX=$WORK -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_LIBS=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-    -DCMAKE_CXX_FLAGS="$CXXFLAGS" -DCMAKE_C_FLAGS="$CFLAGS"
+    -DCMAKE_CXX_FLAGS="$CXXFLAGS" -DCMAKE_C_FLAGS="$CFLAGS" -DCMAKE_EXE_LINKER_FLAGS_INIT="$LIBS"
+cmake --build build --target clean
 cmake --build build --target tiffxx tiffcp
-# cmake --build build --target install .
+cmake --build build --target install .
 
 cp build/tools/tiffcp "$OUT/"
 $CXX $CXXFLAGS -std=c++11 -I$WORK/include \
     contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc -o $OUT/tiff_read_rgba_fuzzer \
-    build/libtiff/libtiffxx.a build/libtiff/libtiff.a -lz -ljpeg -ljbig -ldeflate -Wl,-Bstatic -llzma -Wl,-Bdynamic \
-    $LDFLAGS $LIBS
+    build/libtiff/libtiffxx.a build/libtiff/libtiff.a \
+    $LDFLAGS -L/usr/lib/x86_64-linux-gnu \
+    -lz -ljpeg -ljbig -Wl,-Bstatic -llzma -Wl,-Bdynamic \
+    $LIBS

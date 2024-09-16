@@ -234,6 +234,9 @@ cleanup()
 
 trap cleanup EXIT
 
+echo_time "Disabling code coredumps"
+cat core | sudo tee /proc/sys/kernel/core_pattern
+
 # schedule campaigns
 for FUZZER in "${FUZZERS[@]}"; do
     export FUZZER

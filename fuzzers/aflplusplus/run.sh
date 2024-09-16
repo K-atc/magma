@@ -25,6 +25,7 @@ export AFL_NO_UI=1
 export AFL_MAP_SIZE=256000
 export AFL_DRIVER_DONT_DEFER=1
 
+### NOTE: Parameters -d and -D are deprecated
 "$FUZZER/repo/afl-fuzz" -i "$TARGET/corpus/$PROGRAM" -o "$SHARED/findings" \
-    "${flag_cmplog[@]}" -d \
+    "${flag_cmplog[@]}" \
     $FUZZARGS -- "$OUT/afl/$PROGRAM" $ARGS 2>&1

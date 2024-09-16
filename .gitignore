@@ -33,3 +33,5 @@ targets/poppler/freetype2
 targets/libpng/repo
 targets/libtiff/tiff_read_rgba_fuzzer
 targets/poppler/freetype2
+
+tools/captain/workdir
