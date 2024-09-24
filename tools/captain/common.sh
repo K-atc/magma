@@ -56,6 +56,7 @@ if [ ! -z "$MAGMA" ]; then
 
         for IPROGRAM in "${PROGRAMS[@]}"; do
             varname="${IPROGRAM}_ARGS"
+            set +u
             declare DEFAULT_${ITARGET}_${IPROGRAM}_ARGS="${!varname}"
         done
     done

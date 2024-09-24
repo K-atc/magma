@@ -66,6 +66,10 @@ void magma_log(const char *bug, int condition)
     magma_protect(1);
 #endif
 
+    if (condition) {
+        fprintf(stderr, "[!] Canary triggered by %s\n", bug);
+    }
+
     pcanary_t prod_canary   = stor_get(data_ptr->producer_buffer, bug);
     prod_canary->reached   += 1         & (magma_faulty ^ 1);
     prod_canary->triggered += (bool)condition & (magma_faulty ^ 1);
@@ -83,14 +87,14 @@ void magma_log(const char *bug, int condition)
 #endif
 
 fatal: (void)0;
-#ifdef MAGMA_FATAL_CANARIES
+// #ifdef MAGMA_FATAL_CANARIES
     // send SIGSEGV to self
     static pid_t pid = 0;
     if (pid == 0) {
         pid = getpid();
     }
     kill(pid, ((bool)condition)*11);
-#endif
+// #endif
 #endif
     return;
 }

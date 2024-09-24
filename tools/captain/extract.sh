@@ -1,4 +1,6 @@
 #!/bin/bash
+set -u
+## NOTE: runonce.sh が exit 1 で終了することがある
 
 ##
 # Pre-requirements:
@@ -26,6 +28,7 @@ docker run -dt --entrypoint bash --volume=`realpath "$SHARED"`:/magma_shared \
 
 docker exec $container_id bash -c '$FUZZER/findings.sh' | \
 while read file; do
+    echo "[*] file: $file"
     out="$(docker exec $container_id bash -c '$MAGMA/runonce.sh '"'$file'")"
     code=$?
     if [ $code -eq 0 ]; then

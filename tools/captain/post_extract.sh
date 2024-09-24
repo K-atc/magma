@@ -6,19 +6,11 @@
 # + env EXTRACT: path to extraction script (default: captain/extract.sh)
 ##
 
-cleanup() {
-    rm -rf "$TMPDIR"
-}
-
-trap cleanup EXIT
-
-if [ -z $1 ]; then
-    set -- "./captainrc"
-fi
+captainrc="./captainrc"
 
 # load the configuration file (captainrc)
 set -a
-source "$1"
+source "$captainrc"
 set +a
 
 if [ -z $WORKDIR ] || [ -z $REPEAT ]; then
@@ -43,6 +35,12 @@ mkdir -p "$CACHEDIR"
 mkdir -p "$LOGDIR"
 mkdir -p "$POCDIR"
 mkdir -p "$TMPDIR"
+
+cleanup() {
+    rm -rf "$TMPDIR"
+}
+
+trap cleanup EXIT
 
 if [ -z "$ARDIR" ] || [ ! -d "$ARDIR" ]; then
     echo "Invalid archive directory!"
@@ -71,14 +69,15 @@ find "$ARDIR" -mindepth 1 -maxdepth 1 -type d | while read FUZZERDIR; do
                 export SHARED="$TMPDIR/$FUZZER/$TARGET/$PROGRAM/$CID"
 
                 # select whether to copy or untar
+                mkdir -p "$SHARED"
                 if [ -f "$CAMPAIGNDIR/${TARBALL_BASENAME}.tar" ]; then
-                    mkdir -p "$SHARED"
                     tar -C "$SHARED" -xf "$CAMPAIGNDIR/${TARBALL_BASENAME}.tar"
                 else
                     cp -r "$CAMPAIGNDIR" "$SHARED"
                 fi
 
                 # run the PoC extraction script
+                echo "[*] Extracting: ${FUZZER}/${TARGET}/${PROGRAM}/${CID}"
                 "$EXTRACT"
 
                 # clean up

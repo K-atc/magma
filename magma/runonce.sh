@@ -1,4 +1,6 @@
 #!/bin/bash
+set -u
+## NOTE: $FUZZER/runonce.sh が exit 1 で終了することがある
 
 ##
 # Pre-requirements:
