@@ -30,10 +30,10 @@ REPEAT=1
 # [TIMEOUT]: time to run each campaign. This variable supports one-letter
 # suffixes to indicate duration (s: seconds, m: minutes, h: hours, d: days)
 # (default: 1m)
-TIMEOUT=60m
+TIMEOUT=48h
 
 # [POLL]: time (in seconds) between polls (default: 5)
-POLL=10
+POLL=60
 
 # [CACHE_ON_DISK]: if set, the cache workdir is mounted on disk instead of
 # in-memory (default: unset)
