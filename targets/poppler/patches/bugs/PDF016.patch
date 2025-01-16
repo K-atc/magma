@@ -2,6 +2,14 @@ diff --git a/poppler/Parser.cc b/poppler/Parser.cc
 index afb54dfb..7346604d 100644
 --- a/poppler/Parser.cc
 +++ b/poppler/Parser.cc
+@@ -138,6 +138,7 @@ Object Parser::getObj(bool simpleOnly, const unsigned char *fileKey, CryptAlgori
+                 const bool isContents = !hasContentsEntry && key.isName("Contents");
+                 hasContentsEntry = hasContentsEntry || isContents;
+                 Object obj2 = getObj(false, fileKey, encAlgorithm, keyLength, objNum, objGen, recursion + 1, /*strict*/ false, /*decryptString*/ !isContents);
++                if (obj2.isRef()) MAGMA_LOG("%MAGMA_BUG%-actual", MAGMA_AND(obj2.isRef(), obj2.getRefNum() <= 0));
+                 if (unlikely(obj2.isError() && recursion + 1 >= recursionLimit)) {
+                     break;
+                 }
 @@ -154,10 +154,14 @@ Object Parser::getObj(bool simpleOnly,
              shift();
              shift();
@@ -18,3 +26,4 @@ index afb54dfb..7346604d 100644
              Ref r;
              r.num = num;
              r.gen = gen;
+

@@ -16,6 +16,22 @@ index 238f5af..4067087 100644
        }
        else
        {
+diff --git a/pngrtran.c b/pngrtran.c
+index 238f5afe7..87dabef0f 100644
+--- a/pngrtran.c
++++ b/pngrtran.c
+@@ -4782,6 +4782,11 @@ png_do_read_transformations(png_structrp png_ptr, png_row_infop row_info)
+                png_riffle_palette_neon(png_ptr);
+             }
+          }
++#endif
++#ifdef MAGMA_ENABLE_CANARIES
++         // NOTE: When 'platte' is passed to png_do_expand_palette (crash site),
++         //       if 'plette' is NULL, data flow of 'palette' is lost. So place the canary on the caller side.
++         MAGMA_LOG("%MAGMA_BUG%-actual", png_ptr->palette == NULL);
+ #endif
+          png_do_expand_palette(png_ptr, row_info, png_ptr->row_buf + 1,
+              png_ptr->palette, png_ptr->trans_alpha, png_ptr->num_trans);
 diff --git a/pngset.c b/pngset.c
 index ec75dbe..80e7360 100644
 --- a/pngset.c

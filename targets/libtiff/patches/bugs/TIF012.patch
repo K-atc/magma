@@ -29,17 +29,16 @@
              /* See http://bugzilla.maptools.org/show_bug.cgi?id=2500 */
              if( td->td_sminsamplevalue != NULL )
              {
-@@ -301,6 +307,13 @@ _TIFFVSetField(TIFF* tif, uint32 tag, va_list ap)
+@@ -302,6 +308,12 @@ _TIFFVSetField(TIFF* tif, uint32_t tag, va_list ap)
                      _TIFFfree(td->td_transferfunction[0]);
                      td->td_transferfunction[0] = NULL;
              }
 +#endif
 +#ifdef MAGMA_ENABLE_CANARIES
-+            MAGMA_LOG("%MAGMA_BUG%", MAGMA_OR(td->td_sminsamplevalue != NULL, \
-+                MAGMA_OR(td->td_smaxsamplevalue != NULL, \
-+                MAGMA_AND(td->td_transferfunction[0] != NULL, MAGMA_AND(v - td->td_extrasamples > 1, \
-+                   !(td->td_samplesperpixel - td->td_extrasamples > 1))))));
++           MAGMA_LOG("%MAGMA_BUG%-1", td->td_sminsamplevalue != NULL);
++           MAGMA_LOG("%MAGMA_BUG%-2", td->td_smaxsamplevalue != NULL);
++           MAGMA_LOG("%MAGMA_BUG%-3", td->td_transferfunction[0] != NULL && (v - td->td_extrasamples > 1) && !(td->td_samplesperpixel - td->td_extrasamples > 1));
 +#endif
          }
- 		td->td_samplesperpixel = (uint16) v;
- 		break;
+                td->td_samplesperpixel = (uint16_t) v;
+                break;
